@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+
+_callNumber() async{
+  const number = '085985528894'; //set the number here
+  bool? res = await FlutterPhoneDirectCaller.callNumber(number);
 }
 
 class MyApp extends StatelessWidget {
@@ -10,12 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Lista de Contatos',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Lista de Contatos'),
     );
   }
 }
@@ -29,6 +38,7 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Contato> contatos = [];
@@ -46,6 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title:Text('Lista de Contatos')
+      ),
       body: ListView.separated(itemBuilder: (context , index){
         var contato = contatos[index];
         return ListTile(
@@ -56,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           subtitle: Text(contato.telefone),
           trailing: IconButton(
             icon: Icon(Icons.call),
-            onPressed: ()=>{},
+            onPressed:_callNumber,
           ),
         );
       }, separatorBuilder: (context , index) => Divider(), itemCount: contatos.length),
